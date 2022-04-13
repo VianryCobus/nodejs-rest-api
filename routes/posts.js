@@ -14,21 +14,24 @@ router.get("/", async (req, res) => {
   }
 });
 
-// promise with async await
-router.post("/", async (req, res) => {
+// SUBMIT A POST
+// promise without async await
+router.post("/", (req, res) => {
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
   });
 
-  try {
-    const savedPost = await post.save();
-    res.json(savedPost);
-  } catch (err) {
-    res.json({
-      message: err,
+  post
+    .save()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json({
+        message: err,
+      });
     });
-  }
 });
 
 module.exports = router;
